@@ -7,11 +7,13 @@ import pickle
 
 app = Flask(__name__)
 model = pickle.load(open('model.pkl','rb'))
-
+Fuel_Type = {'0':'Diesel','1':'Petrol','2':'CNG'}
+Tansmission = {'0':'Manual','1':'Automatic'}
+Seller_Type = {'0':'Dealer','1':'Individual',}
 @app.route('/')
 def home():
     
-    return render_template("Index.html",title="Home")
+    return render_template("Index.html",title="Car Prediction",Fuel_Type=Fuel_Type,Tansmission=Tansmission,Seller_Type=Seller_Type)
 
 @app.route('/compute',methods=['Post'])
 def compute():
@@ -21,7 +23,7 @@ def compute():
     prediction = model.predict(scaled_final_features)
 
     output = round(prediction[0], 2)
-    return render_template('index.html',message='Predicted value is {}'.format(output))
+    return render_template('index.html',message='Predicted value is {}'.format(output),title="Car Prediction",Fuel_Type=Fuel_Type,Tansmission=Tansmission,Seller_Type=Seller_Type)
 
 @app.route("/cookie")
 def cookie():
